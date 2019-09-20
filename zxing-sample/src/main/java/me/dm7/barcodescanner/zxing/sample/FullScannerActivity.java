@@ -1,5 +1,6 @@
 package me.dm7.barcodescanner.zxing.sample;
 
+import android.hardware.Camera;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
@@ -17,7 +18,10 @@ import com.google.zxing.Result;
 import java.util.ArrayList;
 import java.util.List;
 
+import me.dm7.barcodescanner.core.BarcodeScannerView;
+import me.dm7.barcodescanner.core.CameraWrapper;
 import me.dm7.barcodescanner.zxing.ZXingScannerView;
+
 
 public class FullScannerActivity extends BaseScannerActivity implements MessageDialogFragment.MessageDialogListener,
         ZXingScannerView.ResultHandler, FormatSelectorDialogFragment.FormatSelectorDialogListener,
@@ -52,6 +56,15 @@ public class FullScannerActivity extends BaseScannerActivity implements MessageD
 
         ViewGroup contentFrame = (ViewGroup) findViewById(R.id.content_frame);
         mScannerView = new ZXingScannerView(this);
+        mScannerView.setCameraPreviewReadyCallback(new BarcodeScannerView.CameraPreviewReadyCallback(){
+            @Override
+            public void onCameraPreviewReady() {
+                mScannerView.setCameraPreviewRotation(90);
+            }
+        });
+        //mScannerView.setCameraPreviewRotation(90);
+
+        //mScannerView.
         setupFormats();
         contentFrame.addView(mScannerView);
     }
